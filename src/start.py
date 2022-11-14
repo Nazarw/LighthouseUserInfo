@@ -22,6 +22,32 @@ checks = {
 async def on_ready():
     print(f'Ready to use | {bot.user}')
 
+
+
+currentVersion = {
+    0:"LittleBigPlanet",
+    1:"LittleBigPlanet 2",
+    2:"LittleBigPlanet 3",
+    3:"LittleBigPlanet Vita"
+}
+
+currentPlatform = {
+    0:"PlayStation 3",
+    1:"RPCS3",
+    2:"Vita"
+}
+
+#roomPlatform
+# 0 - ps3
+# 1 - emulator
+# 2 - vita??
+
+#currentPlatform 
+#0 - LBP 1??
+#1 - LBP 2
+#2 - LBP 3
+#3 - LBP Vita??
+
 @bot.slash_command(description="Get user info")
 async def user(inter,userid: int):
     Info = session.get(f"{data['apiLink']}/user/{userid}").json()
@@ -49,7 +75,7 @@ async def user(inter,userid: int):
                 embed.add_field(name="Online with:", value=parse, inline=True)
                 embed.set_footer(text="Online | Room id: " + str(Status["currentRoom"]["roomId"]))
 
-        embed.set_footer(text="Online")
+        embed.set_footer(text=f'Online | {currentVersion[Status["currentVersion"]]} on {currentPlatform[Status["currentPlatform"]]}')
     else:
         last = int(Info["lastLogin"]/1000)
         dt_ts = datetime.fromtimestamp(last)
