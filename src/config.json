@@ -1,0 +1,6 @@
+{
+    "token":"token here",
+    "serverId":[1234567890],
+    "link":"http://localhost",
+    "apiLink":"http://localhost/api/v1"
+}
