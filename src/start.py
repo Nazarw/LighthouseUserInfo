@@ -9,7 +9,7 @@ data = json.load(config)
 
 
 session = requests.Session()
-# statistics = session.get("{data['apiLink']}/statistics").json()
+
 
 bot = commands.InteractionBot(test_guilds=data["serverId"])
 
@@ -62,7 +62,7 @@ async def user(inter,userid: int):
             for i in Status["currentRoom"]["playerIds"]:
                 name = session.get(f"{data['apiLink']}/user/{i}").json()
                 usernames.append(name["username"])
-                
+
             parse = "\n".join(usernames)
             embed.add_field(name="Online with:", value=parse, inline=True)
 
