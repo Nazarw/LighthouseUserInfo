@@ -61,12 +61,8 @@ async def user(inter,userid: int):
             usernames = []
             for i in Status["currentRoom"]["playerIds"]:
                 name = session.get(f"{data['apiLink']}/user/{i}").json()
-
-                if i == userid:
-                    usernames.append(f'{name["username"]} (Host)')
-                else:
-                    usernames.append(name["username"])
-
+                usernames.append(name["username"])
+                
             parse = "\n".join(usernames)
             embed.add_field(name="Online with:", value=parse, inline=True)
 
