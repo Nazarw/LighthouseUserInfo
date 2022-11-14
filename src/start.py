@@ -62,18 +62,14 @@ async def user(inter,userid: int):
 
         if Status["currentRoom"] != None:
             usernames = []
-            usernames.append(Info["username"])
             for i in Status["currentRoom"]["playerIds"]:
-                if i != Info["username"]:
-                    pass
-                else:
-                    name = session.get(f"{data['apiLink']}/user/{i}").json()
-                    # print(name["username"])
-                    usernames.append(name["username"])
+                name = session.get(f"{data['apiLink']}/user/{i}").json()
+                # print(name["username"])
+                usernames.append(name["username"])
 
-                parse = "\n".join(usernames)
-                embed.add_field(name="Online with:", value=parse, inline=True)
-                embed.set_footer(text="Online | Room id: " + str(Status["currentRoom"]["roomId"]))
+            parse = "\n".join(usernames)
+            embed.add_field(name="Online with:", value=parse, inline=True)
+            # embed.set_footer(text="Online | Room id: " + str(Status["currentRoom"]["roomId"]))
 
         embed.set_footer(text=f'Online | {currentVersion[Status["currentVersion"]]} on {currentPlatform[Status["currentPlatform"]]}')
     else:
