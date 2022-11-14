@@ -1,8 +1,8 @@
 import json
-import requests
 import disnake
+import requests
+from datetime import datetime
 from disnake.ext import commands
-from datetime import datetime,timezone
 
 config = open("config.json")
 data = json.load(config)
@@ -21,8 +21,6 @@ checks = {
 @bot.event
 async def on_ready():
     print(f'Ready to use | {bot.user}')
-
-
 
 currentVersion = {
     0:"LittleBigPlanet",
@@ -59,17 +57,18 @@ async def user(inter,userid: int):
     except Exception:
         embed.set_thumbnail(url=f'{data["link"]}/gameAssets/e6bb64f5f280ce07fdcf4c63e25fa8296c73ec29')
     if Status["statusType"] != 0:
-
         if Status["currentRoom"] != None:
             usernames = []
             for i in Status["currentRoom"]["playerIds"]:
                 name = session.get(f"{data['apiLink']}/user/{i}").json()
-                # print(name["username"])
-                usernames.append(name["username"])
+
+                if i == userid:
+                    usernames.append(f'{name["username"]} (Host)')
+                else:
+                    usernames.append(name["username"])
 
             parse = "\n".join(usernames)
             embed.add_field(name="Online with:", value=parse, inline=True)
-            # embed.set_footer(text="Online | Room id: " + str(Status["currentRoom"]["roomId"]))
 
         embed.set_footer(text=f'Online | {currentVersion[Status["currentVersion"]]} on {currentPlatform[Status["currentPlatform"]]}')
     else:
@@ -81,8 +80,6 @@ async def user(inter,userid: int):
     embed.add_field(name="Email verified", value=f'{checks[Info["emailAddressVerified"]]}' , inline=True)
     embed.add_field(name="Comments enabled", value=f'{checks[Info["commentsEnabled"]]}' , inline=True)
 
-
-    # info = session.get("{data['apiLink']}/user/310",headers=headers).json()
     await inter.response.send_message(embed=embed)
 
 bot.run(data["token"])
