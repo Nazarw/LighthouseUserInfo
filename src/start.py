@@ -26,25 +26,30 @@ currentVersion = {
     0:"LittleBigPlanet",
     1:"LittleBigPlanet 2",
     2:"LittleBigPlanet 3",
-    3:"LittleBigPlanet Vita"
+    3:"LittleBigPlanet Vita",
+    4:"LittleBigPlanet PSP",
+    # -1:"Unknown"
 }
 
 currentPlatform = {
     0:"PlayStation 3",
     1:"RPCS3",
-    2:"Vita"
+    2:"Vita",
+    3:"PSP",
+    4:"UnitTest",
+    # -1:"Unknown"
 }
 
-#roomPlatform
-# 0 - ps3
-# 1 - emulator
-# 2 - vita??
-
-#currentPlatform 
-#0 - LBP 1??
-#1 - LBP 2
-#2 - LBP 3
-#3 - LBP Vita??
+slotType = {
+    0:"Story Mode",
+    1:"Community levels",
+    2:"on Moon",
+    3:"???",
+    4:"???",
+    5:"Pod",
+    6:"Local",
+    7:"DLC"
+}
 
 @bot.slash_command(description="Get user info")
 async def user(inter,userid: int):
@@ -65,14 +70,14 @@ async def user(inter,userid: int):
 
             parse = "\n".join(usernames)
             embed.add_field(name="Online with:", value=parse, inline=True)
-
-        embed.set_footer(text=f'Online | {currentVersion[Status["currentVersion"]]} on {currentPlatform[Status["currentPlatform"]]}')
+            
+        embed.set_footer(text=f'Online | {currentVersion[Status["currentVersion"]]} on {currentPlatform[Status["currentPlatform"]]} | {slotType[Status["currentRoom"]["slot"]["slotType"]]}')
     else:
         last = int(Info["lastLogin"]/1000)
         dt_ts = datetime.fromtimestamp(last)
         embed.set_footer(text=f"Offline | {dt_ts}")
-    embed.add_field(name="Language", value="`"+ Info["language"]+"`" , inline=True)
-    embed.add_field(name="Time zone", value="`"+ Info["timeZone"]+"`" , inline=True)
+    # embed.add_field(name="Language", value="`"+ Info["language"]+"`" , inline=True)
+    # embed.add_field(name="Time zone", value="`"+ Info["timeZone"]+"`" , inline=True)
     embed.add_field(name="Email verified", value=f'{checks[Info["emailAddressVerified"]]}' , inline=True)
     embed.add_field(name="Comments enabled", value=f'{checks[Info["commentsEnabled"]]}' , inline=True)
 
